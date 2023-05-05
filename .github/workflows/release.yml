@@ -19,7 +19,7 @@ jobs:
       FILE_STRING_ARCH_arm64: aarch64
     strategy:
       matrix:
-        arch: [arm64, amd64]
+        arch: [amd64]
 
     steps:
       # amd64 needs the dependencies to build retsnoop
@@ -95,11 +95,8 @@ jobs:
       - name: Rename binaries and compress
         run: |
           archive_amd64="retsnoop-${{ github.ref_name }}-amd64.tar.gz"
-          archive_arm64="retsnoop-${{ github.ref_name }}-arm64.tar.gz"
           tar -C retsnoop_amd64 -I 'gzip -9' -cvf "${archive_amd64}" retsnoop
-          tar -C retsnoop_arm64 -I 'gzip -9' -cvf "${archive_arm64}" retsnoop
           sha256sum "${archive_amd64}" > "${archive_amd64}.sha256sum"
-          sha256sum "${archive_arm64}" > "${archive_arm64}.sha256sum"
 
       - name: Checkout retsnoop and submodules code
         uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
